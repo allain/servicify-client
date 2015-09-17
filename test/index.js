@@ -19,7 +19,7 @@ test('supports finding an enpoint by spec', function (t) {
     var ps = new ServicifyService();
     var identity = require('async-identity');
 
-    return ps.register(identity, {name: 'async-identity', version: '1.2.3'}).then(function (service) {
+    return ps.offer(identity, {name: 'async-identity', version: '1.2.3'}).then(function (service) {
       var pc = new ServicifyClient();
 
       return pc.resolve('async-identity', '^1.0.0').then(function(fn) {
@@ -43,7 +43,7 @@ test('supports finding an enpoint by package name', function (t) {
     var ps = new ServicifyService();
     var identity = require('async-identity');
 
-    return ps.register(identity, {name: 'async-identity', version: '1.2.3'}).then(function (service) {
+    return ps.offer(identity, {name: 'async-identity', version: '1.2.3'}).then(function (service) {
       var pc = new ServicifyClient();
 
       return pc.resolve('async-identity').then(function(fn) {
