@@ -14,6 +14,33 @@ test('can be created without a server to connect to yet', function (t) {
   t.end();
 });
 
+test('endpoints give load', function (t) {
+  return withServer().then(function (server) {
+    var ps = new ServicifyService({heartbeat: 10});
+    var identity = require('async-identity');
+
+    return ps.offer(identity, {name: 'async-identity', version: '1.2.3'}).then(function (service) {
+      return new ServicifyClient().resolve('async-identity', '^1.0.0').then(function(fn) {
+        t.equal(typeof fn, 'function');
+
+        return Promise.fromNode(function(cb) {
+          fn(10, cb);
+        });
+      }).then(function() {
+        return Promise.delay(15);
+      }).then(function() {
+        return server.resolve('async-identity', '^1.0.0');
+      }).then(function(resolutions) {
+        t.equal(resolutions.length, 1, 'only 1 resolution');
+        t.ok(resolutions[0].load > 0, 'load went up');
+        return service.stop();
+      })
+    }).then(function () {
+      return server.stop();
+    });
+  });
+});
+
 test('supports finding an enpoint by spec', function (t) {
   return withServer().then(function (server) {
     var ps = new ServicifyService();
