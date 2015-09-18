@@ -47,7 +47,8 @@ ServicifyClient.prototype.resolve = function (name, required) {
 
     debug('resolutions for %s@%s %j', name, required, resolutions);
 
-    var resolution = resolutions[0];
+    // for now pick randomly
+    var resolution = resolutions[Math.floor(Math.random() * resolutions.length)];
 
     var serviceConnection = new rpc.Client({
       host: resolution.host,
