@@ -1,6 +1,6 @@
 {
   "name": "servicify-client",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Package that connects to a servicify-service by going through the servicify-server registry",
   "main": "index.js",
   "scripts": {
